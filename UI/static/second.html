@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>result</title>
+</head>
+<body>
+<p>课程名称</p>
+<div>
+    <p>正向评论</p>
+    <ol>
+    {% for a_com in pos_comment %}
+        <li>
+            {{a_com}}
+        </li>
+    {% end %}
+    </ol>
+</div>
+<div>
+    <p>负向评论</p>
+    <ol>
+    {% for b_com in neg_comment %}
+        <li>
+            {{b_com}}
+        </li>
+    {% end %}
+    </ol>
+</div>
+</body>
+</html>
