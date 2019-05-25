@@ -8,7 +8,7 @@ return
 1. sentiment analysis module: Sentiment_svm.py
 2. crawl data module: crawl_data.py
 3. UI module: ui.py
-
+    
 
 
 ## next version
@@ -18,10 +18,7 @@ return
 use existing comment data to train model
 
 ## todo:
-1. write tornado server part
-接收url参数, 根据core返回的(string,<value>) render template,and return the html page and css file
-write()
-template
+1.reinstall google chrome in linux, fix the bug in craw_data.py
 
 2. write css file
 box models

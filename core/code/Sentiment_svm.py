@@ -96,7 +96,7 @@ def svm_train(train_vecs,y_train,test_vecs,y_test):
 ##得到待预测单个句子的词向量    
 def get_predict_vecs(words):
     n_dim = 300
-    imdb_w2v = Word2Vec.load('core/svm_data/w2v_model/w2v_model.pkl')
+    imdb_w2v = Word2Vec.load('./core/svm_data/w2v_model/w2v_model.pkl')
     #imdb_w2v.train(words)
     train_vecs = buildWordVector(words, n_dim,imdb_w2v)
     #print train_vecs.shape
@@ -106,7 +106,7 @@ def get_predict_vecs(words):
 def svm_predict(string):
     words=jieba.lcut(string)
     words_vecs=get_predict_vecs(words)
-    clf=joblib.load('svm_data/svm_model/model.pkl')
+    clf=joblib.load('./core/svm_data/svm_model/model.pkl')
      
     result=clf.predict(words_vecs)
     

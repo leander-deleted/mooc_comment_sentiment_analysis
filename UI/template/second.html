@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>result</title>
+    <link rel="stylesheet" href={{static_url("second.css")}}>
 </head>
 <body>
-<p>课程名称</p>
+<p>课程名称: {{title}}</p>
+<hr>
 <div>
     <p>正向评论</p>
     <ol>
@@ -16,6 +18,7 @@
     {% end %}
     </ol>
 </div>
+<hr>
 <div>
     <p>负向评论</p>
     <ol>
