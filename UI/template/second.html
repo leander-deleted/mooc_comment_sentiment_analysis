@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>result</title>
-    <link rel="stylesheet" href={{static_url("second.css")}}>
+    <link rel="stylesheet" href={{static_url("second.css")}}>s
 </head>
 <body>
-<p>课程名称: {{title}}</p>
+<p id="title">课程名称: {{title}}</p>
 <hr>
 <div>
-    <p>正向评论</p>
+    <p id="pos_title">正向评论</p>
     <ol>
     {% for a_com in pos_comment %}
         <li>
@@ -20,7 +20,7 @@
 </div>
 <hr>
 <div>
-    <p>负向评论</p>
+    <p id="neg_title">负向评论</p>
     <ol>
     {% for b_com in neg_comment %}
         <li>

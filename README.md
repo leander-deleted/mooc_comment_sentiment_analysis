@@ -1,3 +1,8 @@
+# env
+chrome
+chrome driver placed in PATH
+
+
 ## 功能 description:
 user input url
 return 
@@ -18,7 +23,6 @@ return
 use existing comment data to train model
 
 ## todo:
-1.reinstall google chrome in linux, fix the bug in craw_data.py
-
-2. write css file
-box models
+-  write css file
+ - 加粗字体
+ - 竖排并列显示

@@ -1,0 +1,109 @@
+import requests
+from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.chrome.options import Options
+'''
+
+get_comment(url:string)
+
+function:
+crawl comment of a course
+if star =1,2, store it into neg_comment
+if star =4,5 store it into pos_comment
+
+'''
+
+def get_comment(url):
+    pos_file = open("./pos_comment.txt","w")
+    neg_file = open("./neg_comment.txt","w")
+    option = Options()
+    option.headless=True
+    driver = WebDriver(options=option)
+    # driver = WebDriver()
+    driver.get(url)
+    course_page_soup = BeautifulSoup(driver.page_source,"lxml")
+    # get list of course container buttons
+    # class=u-courseCardWithTime-container_a160
+    courses_list = course_page_soup.select(".u-courseCardWithTime-container_a160")
+    print("after courses_list")
+    print(courses_list)
+    for course in courses_list:
+        link = "http:"+course["href"]
+        print("link: ",link)
+        driver.get(link)
+        print("after driver.get(link)")
+        #print(driver.page_source)
+        #get [ke cheng ping jia] button
+        # #review-tag-button
+        try:
+            driver.find_element_by_id("review-tag-button").click()
+        except NoSuchElementException:
+            print("NoSuchElementException occur in url : ",link)
+        # list of comment page buttons
+        # .th-bk-main-gh
+        comment_page_btns = driver.find_elements_by_class_name("th-bk-main-gh")
+        print("number of comment page button: ",len(comment_page_btns))
+        page = 1
+        for btn in comment_page_btns:
+            btn.click()
+            print("comment of one course at page: ",page)
+            soup = BeautifulSoup(driver.page_source,"lxml")
+            #get list of comments in one page
+            #div.ux-mooc-comment-course-comment_comment-list_item
+            comments_list = soup.select("div.ux-mooc-comment-course-comment_comment-list_item")
+            for comment in comments_list:
+                # get list of stars
+                #i.star ux-icon-custom-rating-favorite
+                star_list = comment.select("i.star.ux-icon-custom-rating-favorite")
+                #print(comment.get_text().rstrip().lstrip()," len of star list:", len(star_list))
+                # get text of comment
+                #div.ux-mooc-comment-course-comment_comment-list_item_body_content
+                if(len(star_list)>=4):
+                    text = comment.select("div.ux-mooc-comment-course-comment_comment-list_item_body_content")[0].get_text().rstrip().lstrip()+"\n"
+                    pos_file.write(text.encode("utf-8"))
+                elif (len(star_list)<=2):
+                    text = comment.select("div.ux-mooc-comment-course-comment_comment-list_item_body_content")[0].get_text().rstrip().lstrip()+"\n"
+                    neg_file.write(text.encode("utf-8"))
+            page = page+1
+
+    pos_file.close()
+    neg_file.close()
+    driver.quit()
+
+def write_into_excel():
+    import xlrd
+    import xlwings as xw
+    with open("./pos_comment.txt","r") as pos_file:
+        rd_wb = xlrd.open_workbook("pos.xls")
+        sheet = rd_wb.sheet_by_index(0)
+        rows_num = sheet.nrows
+        pos_book = xw.Book("pos.xls")
+        pos_sheet = pos_book.sheets['Sheet1']
+        insert_row = rows_num
+        for comment in pos_file:
+            try:
+                pos_sheet[insert_row,0].value = comment.decode("utf-8").encode("gbk")
+            except UnicodeEncodeError:
+                print("UnicodeEncodeError occur ",comment)
+            insert_row=insert_row+1
+        pos_book.save(path = "pos_added.xls")
+        pos_book.close()
+
+    with open("./neg_comment.txt","r") as neg_file:
+        rd_wb = xlrd.open_workbook("neg.xls")
+        sheet = rd_wb.sheet_by_index(0)
+        rows_num = sheet.nrows
+        neg_book = xw.Book("neg.xls")
+        neg_sheet = neg_book.sheets['Sheet1']
+        insert_row = rows_num
+        for comment in neg_file:
+            print type(comment)
+            neg_sheet[insert_row,0].value = comment.decode("utf-8").encode("gbk")
+            insert_row=insert_row+1
+        neg_book.save(path="neg_added.xls")
+        neg_book.close()
+
+
+if __name__ == "__main__":
+    #get_comment("https://www.icourse163.org/university/ZJU#/c")
+    write_into_excel()

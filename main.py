@@ -49,7 +49,11 @@ if __name__=="__main__":
         ],
         #FIXME:error
         template_path=os.path.join(os.path.dirname(__file__),"ui/template"),
-        static_path=os.path.join(os.path.dirname(__file__),"ui/static")
+        static_path=os.path.join(os.path.dirname(__file__),"ui"
+                                                           "ki"
+                                                           "h:wq"
+                                                           ":::wq"
+                                                           "/static")
     )
     app.listen(8888)
     print("server run at port 8888")

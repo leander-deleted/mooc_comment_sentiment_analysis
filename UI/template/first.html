@@ -4,12 +4,35 @@
     <meta charset="UTF-8">
     <title>慕课网情感分析系统</title>
     <link rel="stylesheet" href={{static_url("index.css")}}>
+    <style>
+    #title{
+        position:absolute;
+        top:23%;
+        left:37%;
+        font-size:2em;
+    }
+    #text_box{
+        position:absolute;
+        top:43%;
+        left:25%;
+        width:50%;
+        height:7%
+    }
+     #button{
+        position:absolute;
+        top:60%;
+        left:69%;
+        width:6%;
+        height:6%
+    }
+
+    </style>
 </head>
 <body>
-    <p>慕客网情感分析系统</p>
-    <form action="/second" method="post">
-        <input type="text" name="url" placeholder="输入课程url">
-        <input type="submit">
+    <p id="title">慕客网情感分析系统</p>
+    <form id ="form"action="/second" method="post">
+        <input  id="text_box" type="text" name="url" placeholder="输入课程url">
+        <input  id="button" type="submit">
     </form>
 </body>
 </html>
