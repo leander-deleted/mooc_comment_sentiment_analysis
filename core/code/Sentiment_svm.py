@@ -53,6 +53,7 @@ def buildWordVector(text, size,imdb_w2v):
     
 #计算词向量
 def get_train_vecs(x_train,x_test):
+    #dimension of word vector space
     n_dim = 300
     #Initialize model and build vocab
     imdb_w2v = Word2Vec(size=n_dim, min_count=10)
@@ -60,7 +61,8 @@ def get_train_vecs(x_train,x_test):
     
     #Train the model over train_reviews (this may take several minutes)
     imdb_w2v.train(x_train)
-    
+
+    #list of train data sentence vector [<sentence vector>,...]
     train_vecs = np.concatenate([buildWordVector(z, n_dim,imdb_w2v) for z in x_train])
     #train_vecs = scale(train_vecs)
     
@@ -97,7 +99,7 @@ def svm_train(train_vecs,y_train,test_vecs,y_test):
 def get_predict_vecs(words):
     n_dim = 300
     imdb_w2v = Word2Vec.load('./core/svm_data/w2v_model/w2v_model.pkl')
-    #imdb_w2v.train(words)
+    #word vector of given sentence
     train_vecs = buildWordVector(words, n_dim,imdb_w2v)
     #print train_vecs.shape
     return train_vecs
